@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>BattleAura – Défi</title>
+  <meta property="og:title" content="⚔️ On te défie sur BattleAura !" />
+  <meta property="og:description" content="Bats son score d'aura. Si t'as pas l'app, c'est gratuit." />
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #07060d; color: #f4f1ff;
+      font: 17px/1.5 system-ui, sans-serif; text-align: center; padding: 20px; box-sizing: border-box; }
+    h1 { font-size: 34px; margin: 0 0 6px; } h1 span { color: #39ff88; }
+    .btn { display: block; margin: 12px auto 0; max-width: 320px; padding: 14px; border-radius: 12px;
+      background: #39ff88; color: #04220f; font-weight: 800; text-decoration: none; }
+    .ghost { background: none; color: #9a93b8; border: 1px solid #3a3452; }
+    .hint { color: #9a93b8; font-size: 14px; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>⚔️ BATTLE<span>AURA</span></h1>
+    <p id="msg">On te défie ! Ouvre BattleAura pour relever le défi.</p>
+    <a class="btn" id="open" href="#">🔥 OUVRIR LE DÉFI</a>
+    <a class="btn ghost" id="store" href="#">📲 Télécharger l'app (gratuit)</a>
+    <p class="hint">Pas encore l'app ? Installe-la, puis rouvre ce lien pour jouer le défi.</p>
+  </main>
+  <script>
+    // Page d'aiguillage : si l'app est installée, Android/iOS l'ouvrent directement sans passer ici.
+    // Sinon : bouton pour réessayer d'ouvrir l'app, et lien vers le bon store.
+    var PKG = 'com.battleaura.app';
+    var PLAY = 'https://play.google.com/store/apps/details?id=' + PKG;
+    var APPSTORE = ''; // à renseigner une fois l'app publiée sur l'App Store
+    var ua = navigator.userAgent;
+    var android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+    var store = document.getElementById('store');
+    var open = document.getElementById('open');
+    var hash = location.hash;
+    store.href = ios && APPSTORE ? APPSTORE : PLAY;
+    if (ios && !APPSTORE) { store.textContent = "📲 Bientôt sur l'App Store"; store.removeAttribute('href'); }
+    if (android) {
+      // Intent Android : ouvre l'app si elle est là, sinon le Play Store.
+      open.href = 'intent://' + location.host + location.pathname + hash + '#Intent;scheme=https;package=' + PKG
+        + ';S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+    } else {
+      open.href = location.href;
+    }
+  </script>
+</body>
+</html>

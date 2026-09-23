@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.battleaura.app",
+      "sha256_cert_fingerprints": [
+        "4D:29:EC:5A:19:F0:A3:0C:5A:63:48:84:89:79:6C:FA:7E:0B:2C:3F:7B:2F:BF:D6:BF:D5:A2:7A:40:D6:DA:05"
+      ]
+    }
+  }
+]
