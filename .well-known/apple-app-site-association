@@ -2,7 +2,7 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["APPLE_TEAM_ID.com.battleaura.app"],
+        "appIDs": ["CG3GFF278U.com.battleaura.app"],
         "components": [{ "/": "/d/*" }, { "/": "/d" }]
       }
     ]
