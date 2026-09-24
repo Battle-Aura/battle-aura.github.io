@@ -48,6 +48,15 @@
       // Intent Android : ouvre l'app si elle est là, sinon le Play Store.
       open.href = 'intent://' + location.host + location.pathname + hash + '#Intent;scheme=https;package=' + PKG
         + ';S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+    } else if (ios) {
+      // iOS n'ouvre pas les Universal Links touchés sur leur propre domaine (ni dans les navigateurs intégrés
+      // d'Instagram, TikTok…) : le bouton passe par le schéma de l'app (CFBundleURLTypes dans Info.plist).
+      open.href = PKG + '://d/' + hash;
+      open.addEventListener('click', function () {
+        setTimeout(function () {
+          if (!document.hidden) document.getElementById('msg').textContent = "L'app ne s'est pas ouverte ? Installe BattleAura, puis rouvre ce lien.";
+        }, 1500);
+      });
     } else {
       open.href = location.href;
     }
