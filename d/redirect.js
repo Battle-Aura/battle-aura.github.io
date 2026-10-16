@@ -10,6 +10,8 @@
       soon: "📲 Bientôt sur l'App Store",
       hint: 'Pas encore l’app ? Installe-la, puis rouvre ce lien pour jouer le défi.',
       notOpened: "L'app ne s'est pas ouverte ? Installe BattleAura, puis rouvre ce lien.",
+      liveMsg: 'On te défie en direct !',
+      liveHint: 'Pas encore l’app ? Installe-la, puis DÉFI › POTE › « Rejoindre avec un code » : le défi dure 3 minutes.',
     },
     en: {
       msg: "You've been challenged! Open BattleAura to take it on.",
@@ -18,6 +20,8 @@
       soon: '📲 Coming soon to the App Store',
       hint: "Don't have the app yet? Install it, then open this link again to play the challenge.",
       notOpened: "App didn't open? Install BattleAura, then open this link again.",
+      liveMsg: "You're being challenged live!",
+      liveHint: 'No app yet? Install it, then BATTLE › FRIEND › “Join with a code”: the challenge lasts 3 minutes.',
     },
     es: {
       msg: '¡Te han retado! Abre BattleAura para aceptar el reto.',
@@ -26,6 +30,8 @@
       soon: '📲 Muy pronto en el App Store',
       hint: '¿Aún no tienes la app? Instálala y vuelve a abrir este enlace para jugar el reto.',
       notOpened: '¿No se abrió la app? Instala BattleAura y vuelve a abrir este enlace.',
+      liveMsg: '¡Te retan en directo!',
+      liveHint: '¿Aún no tienes la app? Instálala y luego RETO › AMIGO › «Unirse con un código»: el reto dura 3 minutos.',
     },
   };
   var lang = document.documentElement.lang;
@@ -46,10 +52,20 @@
   var store = document.getElementById('store');
   var open = document.getElementById('open');
   var hash = location.hash;
+  // Lien de salle en direct : #r=CODE&n=pseudo. Le pseudo (non fiable) n'est jamais affiché ici.
+  var ROOM_HASH = /^#r=([A-HJKMNP-Z2-9]{4})(?:&n=([^&]*))?$/;
+  var room = ROOM_HASH.exec(hash);
   msg.textContent = T.msg;
   open.textContent = T.open;
   store.textContent = T.store;
   document.getElementById('hint').textContent = T.hint;
+  if (room) {
+    var codeEl = document.getElementById('code');
+    codeEl.textContent = room[1];
+    codeEl.hidden = false;
+    msg.textContent = T.liveMsg;
+    document.getElementById('hint').textContent = T.liveHint;
+  }
   store.href = ios && APPSTORE ? APPSTORE : PLAY;
   if (ios && !APPSTORE) { store.textContent = T.soon; store.removeAttribute('href'); }
   if (android) {
