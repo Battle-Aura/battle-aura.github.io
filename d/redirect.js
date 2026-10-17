@@ -66,12 +66,15 @@
     msg.textContent = T.liveMsg;
     document.getElementById('hint').textContent = T.liveHint;
   }
-  store.href = ios && APPSTORE ? APPSTORE : PLAY;
+  // Le « # » voyage jusqu'à l'appli à travers l'installation (Install Referrer du Play Store) : au premier
+  // lancement, elle rouvre ce défi au lieu de l'accueil.
+  var PLAY_WITH_LINK = hash ? PLAY + '&referrer=' + encodeURIComponent(hash) : PLAY;
+  store.href = ios && APPSTORE ? APPSTORE : PLAY_WITH_LINK;
   if (ios && !APPSTORE) { store.textContent = T.soon; store.removeAttribute('href'); }
   if (android) {
     // Intent Android : ouvre l'app si elle est là, sinon le Play Store.
     open.href = 'intent://' + location.host + location.pathname + hash + '#Intent;scheme=https;package=' + PKG
-      + ';S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end';
+      + ';S.browser_fallback_url=' + encodeURIComponent(PLAY_WITH_LINK) + ';end';
   } else if (ios) {
     // iOS n'ouvre pas les Universal Links touchés sur leur propre domaine (ni dans les navigateurs intégrés
     // d'Instagram, TikTok…) : le bouton passe par le schéma de l'app (CFBundleURLTypes dans Info.plist).
